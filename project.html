@@ -94,15 +94,11 @@ img {
 <h2>Data Preprocessing</h2>
 <p>First we clear the workspace and load the neded libraries.</p>
 <pre class="r"><code>rm(list=ls())
-#library(AppliedPredictiveModeling)
 library(caret)</code></pre>
 <pre><code>## Loading required package: lattice
 ## Loading required package: ggplot2</code></pre>
 <pre><code>## Warning: package 'ggplot2' was built under R version 3.2.3</code></pre>
-<pre class="r"><code>#library(rattle)
-#library(rpart)
-#library(rpart.plot)
-library(randomForest)</code></pre>
+<pre class="r"><code>library(randomForest)</code></pre>
 <pre><code>## randomForest 4.6-12
 ## Type rfNews() to see new features/changes/bug fixes.
 ## 
@@ -172,14 +168,14 @@ fit$finalModel</code></pre>
 ##                      Number of trees: 50
 ## No. of variables tried at each split: 40
 ## 
-##         OOB estimate of  error rate: 0.16%
+##         OOB estimate of  error rate: 0.14%
 ## Confusion matrix:
 ##      A    B    C    D    E  class.error
 ## A 3347    1    0    0    0 0.0002986858
-## B    1 2275    3    0    0 0.0017551558
-## C    0    4 2046    4    0 0.0038948393
-## D    0    0    5 1924    1 0.0031088083
-## E    0    0    0    0 2165 0.0000000000</code></pre>
+## B    0 2277    2    0    0 0.0008775779
+## C    0    7 2046    1    0 0.0038948393
+## D    0    0    4 1926    0 0.0020725389
+## E    0    0    0    2 2163 0.0009237875</code></pre>
 <p>Now we can test the fitted model on the validation data.</p>
 <pre class="r"><code>predictRF &lt;- predict(fit, ValidationData)
 confusionMatrix(ValidationData$classe, predictRF)</code></pre>
@@ -188,40 +184,40 @@ confusionMatrix(ValidationData$classe, predictRF)</code></pre>
 ##           Reference
 ## Prediction    A    B    C    D    E
 ##          A 2232    0    0    0    0
-##          B    1 1517    0    0    0
-##          C    0    0 1368    0    0
-##          D    0    0    2 1283    1
-##          E    0    0    0    0 1442
+##          B    2 1516    0    0    0
+##          C    0    9 1359    0    0
+##          D    0    0    1 1284    1
+##          E    0    0    0    3 1439
 ## 
 ## Overall Statistics
 ##                                           
-##                Accuracy : 0.9995          
-##                  95% CI : (0.9987, 0.9999)
-##     No Information Rate : 0.2846          
+##                Accuracy : 0.998           
+##                  95% CI : (0.9967, 0.9988)
+##     No Information Rate : 0.2847          
 ##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16       
 ##                                           
-##                   Kappa : 0.9994          
+##                   Kappa : 0.9974          
 ##  Mcnemar's Test P-Value : NA              
 ## 
 ## Statistics by Class:
 ## 
 ##                      Class: A Class: B Class: C Class: D Class: E
-## Sensitivity            0.9996   1.0000   0.9985   1.0000   0.9993
-## Specificity            1.0000   0.9998   1.0000   0.9995   1.0000
-## Pos Pred Value         1.0000   0.9993   1.0000   0.9977   1.0000
-## Neg Pred Value         0.9998   1.0000   0.9997   1.0000   0.9998
-## Prevalence             0.2846   0.1933   0.1746   0.1635   0.1839
-## Detection Rate         0.2845   0.1933   0.1744   0.1635   0.1838
+## Sensitivity            0.9991   0.9941   0.9993   0.9977   0.9993
+## Specificity            1.0000   0.9997   0.9986   0.9997   0.9995
+## Pos Pred Value         1.0000   0.9987   0.9934   0.9984   0.9979
+## Neg Pred Value         0.9996   0.9986   0.9998   0.9995   0.9998
+## Prevalence             0.2847   0.1944   0.1733   0.1640   0.1835
+## Detection Rate         0.2845   0.1932   0.1732   0.1637   0.1834
 ## Detection Prevalence   0.2845   0.1935   0.1744   0.1639   0.1838
-## Balanced Accuracy      0.9998   0.9999   0.9993   0.9998   0.9997</code></pre>
+## Balanced Accuracy      0.9996   0.9969   0.9989   0.9987   0.9994</code></pre>
 <p>We compute the accuracy.</p>
 <pre class="r"><code>accuracy &lt;- postResample(predictRF, ValidationData$classe)
 accuracy</code></pre>
 <pre><code>##  Accuracy     Kappa 
-## 0.9994902 0.9993551</code></pre>
+## 0.9979607 0.9974205</code></pre>
 <pre class="r"><code>oose &lt;- 1 - as.numeric(confusionMatrix(ValidationData$classe, predictRF)$overall[1])
 oose</code></pre>
-<pre><code>## [1] 0.0005098139</code></pre>
+<pre><code>## [1] 0.002039256</code></pre>
 <p>the estimated accuracy of the model is larger tha 99% and the estimated out-of-sample error is smaller than 1%. Next we will apply the model to the testing data set.</p>
 </div>
 <div id="predicting-results-on-the-test-data" class="section level2">
