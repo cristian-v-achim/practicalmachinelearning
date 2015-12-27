@@ -60,6 +60,9 @@ if (!file.exists(testFile)) {
 ```{r}
 pmltrainingRaw <- read.table("./data/pml-training.csv",header=TRUE,sep=",")
 pmltestingRaw <- read.table("./data/pml-testing.csv",header=TRUE,sep=",")
+#remove the useless index column
+pmltrainingRaw <- pmltrainingRaw[,-1]
+pmltestingRaw <- pmltestingRaw[,-1]
 dim(pmltrainingRaw)
 dim(pmltestingRaw)
 craw <- colnames(pmltrainingRaw)
@@ -125,14 +128,11 @@ Predicting Results on the Test Data
 We can test now our model by trying to predict the data contained in the testing.
 ```{r}
 #fitControl <- trainControl(method="cv", number=5)
-# fit model on training Data
+# fit model on the whole training Data (not sure if needed)
 #fit <- train(classe ~ ., data=TrainingDC, method="rf", trControl=fitControl,ntree=50)
 
-nresult <- predict(fit, ValidationData[2200:2250,-length(names(ValidationData))])
-summary(nresult)
-summary(ValidationData[2200:2250,length(names(ValidationData))])
 result <- predict(fit, TestingDC)
-summary(result)
+result
 
 if (!file.exists("./answers")) {
   dir.create("./answers")
