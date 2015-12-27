@@ -31,11 +31,7 @@ First we clear the workspace and load the neded libraries.
 
 ```{r}
 rm(list=ls())
-#library(AppliedPredictiveModeling)
 library(caret)
-#library(rattle)
-#library(rpart)
-#library(rpart.plot)
 library(randomForest)
 ```
 **Data loading **
